@@ -22,8 +22,8 @@ dependencyResolutionManagement {
 rootProject.name = "XHDWalletAPI"
 
 include(
+    ":lazysodium-java",
     ":sharedModule",
     ":XHDWalletAPI-Android",
-    ":lazysodium-java",
     ":XHDWalletAPI-JVM"
 )
