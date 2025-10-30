@@ -99,8 +99,7 @@ publishing {
                 developers {
                     developer {
                         id.set("perawallet")
-                        name.set("Pera Wallet Team")
-                        email.set("support@perawallet.app")
+                        name.set("Pera Wallet")
                     }
                 }
 
@@ -114,9 +113,14 @@ publishing {
     }
 }
 
+tasks.matching { it.name == "generateMetadataFileForMavenAndroidPublication" }
+    .configureEach { dependsOn(androidSourcesJar) }
+
 signing {
     val signingKey = System.getenv("GPG_PRIVATE_KEY")
     val signingPassword = System.getenv("GPG_PRIVATE_KEY_PASSWORD")
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign(publishing.publications["mavenAndroid"])
+    if (!signingKey.isNullOrBlank() && !signingPassword.isNullOrBlank()) {
+        useInMemoryPgpKeys(signingKey, signingPassword)
+        sign(publishing.publications["mavenAndroid"])
+    }
 }
