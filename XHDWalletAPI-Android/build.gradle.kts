@@ -1,16 +1,15 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.kapt")
     `maven-publish`
     signing
 }
 
 group = "app.perawallet.xhdwalletapi"
-version = project.property("version") as String
+version = "1.2.0"
 
 base {
-    archivesName.set("XHDWalletAPI-Android")
+    archivesName.set("xhdwalletapi-android")
 }
 
 android {
@@ -44,16 +43,24 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
 
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
-        }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_21.toString()
     }
 }
 
 dependencies {
-    api(project(":sharedModule"))
-    api(fileTree("../sharedModule/libs") { include("*.jar") })
+    implementation(kotlin("stdlib"))
+
+    api(project(":lazysodium-java"))
+    api("commons-codec:commons-codec:1.19.0")
+    api("cash.z.ecc.android:kotlin-bip39:1.0.9")
+    api("net.pwall.json:json-kotlin-schema:0.57")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-core:1.9.0")
+    api("com.fasterxml.jackson.core:jackson-databind:2.20.0")
+    api("com.fasterxml.jackson.core:jackson-core:2.20.0")
+    api("org.msgpack:jackson-dataformat-msgpack:0.9.10")
+    api("com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.20.0")
 }
 
 tasks.register<Copy>("copyAarToRoot") {
@@ -102,15 +109,5 @@ publishing {
                 }
             }
         }
-    }
-}
-
-signing {
-    if (System.getenv("GPG_PRIVATE_KEY") != null) {
-        useInMemoryPgpKeys(
-            System.getenv("GPG_PRIVATE_KEY"),
-            System.getenv("GPG_PRIVATE_KEY_PASSWORD")
-        )
-        sign(publishing.publications)
     }
 }

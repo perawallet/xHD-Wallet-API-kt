@@ -1,7 +1,5 @@
 plugins {
     `java-library`
-    `maven-publish`
-    signing
 }
 
 group = "app.perawallet"
@@ -15,11 +13,11 @@ java {
     withJavadocJar()
 }
 
-sourceSets {
-    named("main") {
-        resources {
-            srcDirs("src/main/resources", "src/main/jniLibs")
-        }
+tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from("src/main/jniLibs") {
+        include("**/*.so")
+        into("jniLibs")
     }
 }
 
@@ -39,48 +37,4 @@ tasks.withType<Jar>().configureEach {
 tasks.withType<Javadoc>().configureEach {
     options.encoding = "UTF-8"
     (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("release") {
-            from(components["java"])
-            groupId = project.group.toString()
-            artifactId = "lazysodium-java"
-            version = project.version.toString()
-
-            pom {
-                name.set("Lazysodium Java")
-                description.set(project.description)
-                url.set("https://github.com/terl/lazysodium-java")
-                licenses {
-                    license {
-                        name.set("Apache License 2.0")
-                        url.set("https://www.apache.org/licenses/LICENSE-2.0")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("goterl")
-                        name.set("Goterl Team")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:https://github.com/terl/lazysodium-java.git")
-                    developerConnection.set("scm:git:ssh://github.com/terl/lazysodium-java.git")
-                    url.set("https://github.com/terl/lazysodium-java")
-                }
-            }
-        }
-    }
-}
-
-signing {
-    if (System.getenv("GPG_PRIVATE_KEY") != null) {
-        useInMemoryPgpKeys(
-            System.getenv("GPG_PRIVATE_KEY"),
-            System.getenv("GPG_PRIVATE_KEY_PASSWORD")
-        )
-        sign(publishing.publications)
-    }
 }

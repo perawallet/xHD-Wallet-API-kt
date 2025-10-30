@@ -21,3 +21,20 @@ nmcpAggregation {
 
     publishAllProjectsProbablyBreakingProjectIsolation()
 }
+
+subprojects {
+    plugins.withId("maven-publish") {
+        project.pluginManager.apply("signing")
+
+        project.extensions.configure<SigningExtension> {
+            val publishing = project.extensions.findByType(PublishingExtension::class.java)
+            val key = System.getenv("GPG_PRIVATE_KEY")
+            val password = System.getenv("GPG_PRIVATE_KEY_PASSWORD")
+
+            if (!key.isNullOrBlank() && !password.isNullOrBlank()) {
+                useInMemoryPgpKeys(key, password)
+                sign(publishing?.publications)
+            }
+        }
+    }
+}

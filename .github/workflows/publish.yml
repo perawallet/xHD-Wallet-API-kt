@@ -29,8 +29,8 @@ jobs:
           java-version: 21
           cache: gradle
 
-      - name: Clean and rebuild
-        run: rm -rf ~/.gradle/caches && ./gradlew --no-daemon clean build --stacktrace
+      - name: Publish to Maven Central (NMCP)
+        run: ./gradlew --no-daemon clean publishAllProjectsProbablyBreakingProjectIsolation --stacktrace
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PRIVATE_KEY_PASSWORD: ${{ secrets.GPG_PRIVATE_KEY_PASSWORD }}
