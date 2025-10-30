@@ -9,11 +9,11 @@ Currently there are two folders, one to create an .aar file for use in Android, 
 ## Requirements
 
 | Requirement | Version |
-| ----------- | ------- |
-| Kotlin      | 1.9.22  |
-| Gradle      | 8.6     |
+| ----------- |---------|
+| Kotlin      | 2.2.21  |
+| Gradle      | 8.13    |
 | Android     | 26      |
-| Java        | 17      |
+| Java        | 21      |
 
 ## Installation - How to Incorporate Into Your Project
 
@@ -23,7 +23,7 @@ Add the following to your build.gradle.kts:
 
 ```kotlin
 implementation("net.java.dev.jna:jna:5.14.0@aar")
-implementation("foundation.algorand.xhdwalletapi:xhdwalletapi-android:{VERSION}")
+implementation("app.perawallet.xhdwalletapi:xhdwalletapi-android:{VERSION}")
 ```
 
 JNA is necessary for the app to understand the path to the LibSodium binaries.
@@ -31,7 +31,7 @@ JNA is necessary for the app to understand the path to the LibSodium binaries.
 ### Java
 
 ```kotlin
-implementation("foundation.algorand.xhdwalletapi:xhdwalletapi:{VERSION}")
+implementation("app.perawallet.xhdwalletapi:xhdwalletapi:{VERSION}")
 ```
 
 ### BIP39

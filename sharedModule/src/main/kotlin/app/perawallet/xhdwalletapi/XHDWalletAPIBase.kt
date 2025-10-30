@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package foundation.algorand.xhdwalletapi
+package app.perawallet.xhdwalletapi
 
 // import com.fasterxml.jackson.dataformat.cbor.databind.CBORMapper // CBOR is not yet supported
 // across all platforms
@@ -261,7 +261,7 @@ abstract class XHDWalletAPIBase(private var seed: ByteArray) {
    * @returns
    * - (z, c) where z is the 64-byte child key and c is the chain code
    */
-  internal fun deriveHardened(
+  fun deriveHardened(
           kl: ByteArray,
           kr: ByteArray,
           cc: ByteArray,

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package foundation.algorand.xhdwalletapi
+package app.perawallet.xhdwalletapi.testWithSandbox
 
 import cash.z.ecc.android.bip39.Mnemonics.MnemonicCode
 import cash.z.ecc.android.bip39.toSeed
@@ -29,15 +29,20 @@ import com.algorand.algosdk.transaction.Transaction
 import com.algorand.algosdk.util.Encoder
 import com.algorand.algosdk.v2.client.common.AlgodClient
 import com.algorand.algosdk.v2.client.common.IndexerClient
-import kotlin.collections.component1
+import app.perawallet.xhdwalletapi.KeyContext
+import app.perawallet.xhdwalletapi.XHDWalletAPIJVM
+import app.perawallet.xhdwalletapi.encodeAddress
+import app.perawallet.xhdwalletapi.helperStringToByteArray
 import kotlin.test.Test
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.TestInstance
 
 class AlgoLocalNetTest {
+    @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    internal class AlgoSDKTests {
+    inner class AlgoSDKTests {
 
         private lateinit var alice: XHDWalletAPIJVM
         private lateinit var algod: AlgodClient
@@ -215,9 +220,9 @@ class AlgoLocalNetTest {
 
             assert(
                     alice0SharedSecret.contentEquals(
-                            helperStringToByteArray(
-                                    "131, 42, 24, 10, 19, 49, 210, 175, 170, 10, 255, 222, 54, 147, 2, 30, 212, 160, 172, 18, 130, 186, 219, 160, 136, 37, 39, 213, 96, 42, 90, 34"
-                            )
+                        helperStringToByteArray(
+                            "131, 42, 24, 10, 19, 49, 210, 175, 170, 10, 255, 222, 54, 147, 2, 30, 212, 160, 172, 18, 130, 186, 219, 160, 136, 37, 39, 213, 96, 42, 90, 34"
+                        )
                     )
             ) { "Shared secret different from hardcoded" }
         }

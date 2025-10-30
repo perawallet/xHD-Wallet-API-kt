@@ -1,4 +1,4 @@
-package foundation.algorand.xhdwalletapi
+package app.perawallet.xhdwalletapi
 
 import java.security.MessageDigest
 import java.util.Arrays
