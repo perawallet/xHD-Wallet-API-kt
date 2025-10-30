@@ -37,7 +37,7 @@ repositories {
 
 // Project level dependencies section
 dependencies {
-    implementation "com.goterl:lazysodium-java:VERSION_NUMBER"
+    implementation "app.perawallet:lazysodium-java:VERSION_NUMBER"
     implementation "net.java.dev.jna:jna:JNA_NUMBER"
 }
 ```

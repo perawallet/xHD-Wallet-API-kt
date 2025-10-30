@@ -24,8 +24,8 @@ sourceSets {
 }
 
 dependencies {
-    implementation("net.java.dev.jna:jna:5.18.1")
-    implementation("com.goterl:resource-loader:2.1.0")
+    api("com.goterl:resource-loader:2.1.0")
+    api("net.java.dev.jna:jna:5.18.1")
     implementation("org.slf4j:slf4j-api:2.0.17")
 }
 

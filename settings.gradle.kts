@@ -24,6 +24,5 @@ rootProject.name = "XHDWalletAPI"
 include(
     ":lazysodium-java",
     ":sharedModule",
-    ":XHDWalletAPI-Android",
-    ":XHDWalletAPI-JVM"
+    ":XHDWalletAPI-Android"
 )

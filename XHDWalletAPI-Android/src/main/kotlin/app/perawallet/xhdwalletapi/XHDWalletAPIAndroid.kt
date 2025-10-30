@@ -17,9 +17,9 @@
 
 package app.perawallet.xhdwalletapi
 
-import com.goterl.lazysodium.LazySodiumAndroid
-import com.goterl.lazysodium.SodiumAndroid
+import app.perawallet.lazysodium.LazySodiumAndroid
+import app.perawallet.lazysodium.SodiumAndroid
 
-class XHDWalletAPIAndroid(private var seed: ByteArray) : XHDWalletAPIBase(seed) {
+class XHDWalletAPIAndroid(seed: ByteArray) : XHDWalletAPIBase(seed) {
     override val lazySodium = LazySodiumAndroid(SodiumAndroid())
 }

@@ -20,7 +20,7 @@ package app.perawallet.xhdwalletapi
 // import com.fasterxml.jackson.dataformat.cbor.databind.CBORMapper // CBOR is not yet supported
 // across all platforms
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.goterl.lazysodium.LazySodium
+import app.perawallet.lazysodium.LazySodium
 import java.math.BigInteger
 import java.nio.ByteBuffer
 import java.security.MessageDigest

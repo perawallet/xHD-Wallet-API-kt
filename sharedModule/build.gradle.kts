@@ -16,8 +16,6 @@ dependencies {
     api(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(kotlin("stdlib"))
     api("commons-codec:commons-codec:1.19.0")
-    api("net.java.dev.jna:jna:5.18.1")
-    api("com.goterl:resource-loader:2.1.0")
     api("cash.z.ecc.android:kotlin-bip39:1.0.9")
     api("net.pwall.json:json-kotlin-schema:0.57")
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")

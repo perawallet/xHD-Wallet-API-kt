@@ -7,17 +7,16 @@
  */
 package app.perawallet.lazysodium.utils;
 
-import app.perawallet.lazysodium.Sodium;
-import app.perawallet.lazysodium.SodiumJava;
-
 import com.goterl.resourceloader.SharedLibraryLoader;
-import com.sun.jna.Native;
-import com.sun.jna.Platform;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import app.perawallet.lazysodium.Sodium;
+import app.perawallet.lazysodium.SodiumJava;
 
 /**
  * A simple library class which helps with loading dynamic sodium library stored in the
@@ -74,51 +73,6 @@ public final class LibraryLoader {
         classes.addAll(classesToRegister);
     }
 
-    /**
-     * Loads the sodium library and registers the native methods of {@link Sodium}
-     * and {@link SodiumJava} using the specified loading mode.
-     * The library will be loaded at most once.
-     *
-     * @param mode controls which sodium library (installed in the system or bundled in the JAR)
-     *     is loaded, and in which order
-     * @param systemFallBack If loading directly fails then it will fall to the system fallback specified here
-     * @throws LibraryLoadingException if fails to load the library
-     * @see Native#register(Class, String)
-     */
-    public void loadLibrary(Mode mode, String systemFallBack) {
-        switch (mode) {
-            case PREFER_SYSTEM:
-                try {
-                    loadSystemLibrary(systemFallBack);
-                } catch (Throwable suppressed) {
-                    logger.debug("Tried loading native libraries from system but failed. Message: {}.", suppressed.getMessage());
-                    // Attempt to load the bundled
-                    loadBundledLibrary();
-                }
-                break;
-            case PREFER_BUNDLED:
-                try {
-                    loadBundledLibrary();
-                } catch (Throwable suppressed) {
-                    logger.debug("Tried loading native libraries from the bundled resources but failed. Message: {}.", suppressed.getMessage());
-                    loadSystemLibrary(systemFallBack);
-                }
-                break;
-            case BUNDLED_ONLY:
-                loadBundledLibrary();
-                break;
-            case SYSTEM_ONLY:
-                loadSystemLibrary(systemFallBack);
-                break;
-            default:
-                throw new IllegalStateException("Unsupported mode: " + mode);
-        }
-    }
-
-    public void loadSystemLibrary(String library) {
-        SharedLibraryLoader.get().loadSystemLibrary(library, classes);
-    }
-
     public void loadAbsolutePath(String absPath) {
         SharedLibraryLoader.get().loadSystemLibrary(absPath, classes);
     }
@@ -130,51 +84,13 @@ public final class LibraryLoader {
      * <p>The file from JAR is copied into system temporary directory and then loaded.
      * The temporary file is deleted after exiting.
      */
-    private void loadBundledLibrary() {
-        String pathInJar = getSodiumPathInResources();
-        SharedLibraryLoader.get().load(pathInJar, classes);
-    }
 
     /**
      * Returns the absolute path to sodium library inside JAR (beginning with '/'), e.g. /linux/libsodium.so.
+     *
      * @return The path to the libsodium binary.
      */
-    public static String getSodiumPathInResources() {
-        boolean is64Bit = Native.POINTER_SIZE == 8;
-        if (Platform.isWindows()) {
-            if (is64Bit) {
-                return getPath("windows64", "libsodium.dll");
-            } else {
-                return getPath("windows", "libsodium.dll");
-            }
-        }
-        if (Platform.isMac()) {
-            // check for Apple Silicon
-            if(Platform.isARM()) {
-                return getPath("mac/aarch64", "libsodium.dylib");
-            } else {
-                return getPath("mac/intel", "libsodium.dylib");
-            }
-        }
-        if (Platform.isARM()) {
-            if(is64Bit) {
-                return getPath("arm64", "libsodium.so");
-            } else {
-                return getPath("armv6", "libsodium.so");
-            }
-        }
-        if (Platform.isLinux()) {
-            if (is64Bit) {
-                return getPath("linux64", "libsodium.so");
-            } else {
-                return getPath("linux", "libsodium.so");
-            }
-        }
 
-        String message = String.format("Unsupported platform: %s/%s", System.getProperty("os.name"),
-                System.getProperty("os.arch"));
-        throw new LibraryLoadingException(message);
-    }
 
     private static String getPath(String folder, String name) {
         String separator = "/";

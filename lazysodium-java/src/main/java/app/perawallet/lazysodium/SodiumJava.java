@@ -20,22 +20,6 @@ public class SodiumJava extends Sodium {
      * Creates the SodiumJava instance. Uses the {@linkplain LibraryLoader.Mode#PREFER_SYSTEM default loading mode},
      * first attempting to load the system sodium, and, if that fails — the bundled one.
      */
-    public SodiumJava() {
-        this(LibraryLoader.Mode.PREFER_SYSTEM);
-    }
-
-    /**
-     * Creates the SodiumJava using the given loading mode.
-     *
-     * @param loadingMode controls which sodium library (installed in the system or bundled in the JAR)
-     *                    is loaded, and in which order
-     * @see LibraryLoader.Mode
-     */
-    public SodiumJava(LibraryLoader.Mode loadingMode) {
-        new LibraryLoader(getClassesToRegister()).loadLibrary(loadingMode, "sodium");
-        base64Facade = new Base64Java();
-        onRegistered();
-    }
 
     public SodiumJava(String absolutePath) {
         new LibraryLoader(getClassesToRegister()).loadAbsolutePath(absolutePath);
