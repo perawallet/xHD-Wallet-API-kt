@@ -29,10 +29,10 @@ jobs:
           java-version: 21
           cache: gradle
 
-      - name: Publish to Maven Central (NMCP)
-        run: ./gradlew --no-daemon clean publishAllProjectsProbablyBreakingProjectIsolation --stacktrace
+      - name: Publish XHDWalletAPI-Android to Maven Central
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PRIVATE_KEY_PASSWORD: ${{ secrets.GPG_PRIVATE_KEY_PASSWORD }}
           CENTRAL_PORTAL_USERNAME: ${{ secrets.CENTRAL_PORTAL_USERNAME }}
           CENTRAL_PORTAL_PASSWORD: ${{ secrets.CENTRAL_PORTAL_PASSWORD }}
+        run: ./gradlew --no-daemon clean :XHDWalletAPI-Android:publish --stacktrace

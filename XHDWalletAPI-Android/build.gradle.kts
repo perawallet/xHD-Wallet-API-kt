@@ -1,12 +1,10 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("com.gradleup.nmcp")
     `maven-publish`
     signing
 }
-
-group = "app.perawallet.xhdwalletapi"
-version = "1.2.0"
 
 base {
     archivesName.set("xhdwalletapi-android")
@@ -79,9 +77,9 @@ publishing {
         create<MavenPublication>("release") {
             afterEvaluate { from(components["release"]) }
 
-            groupId = project.group.toString()
+            groupId = "app.perawallet.xhdwalletapi"
             artifactId = "xhdwalletapi-android"
-            version = project.version.toString()
+            version = "1.2.0"
 
             pom {
                 name.set("XHDWalletAPI-Android")
@@ -109,5 +107,15 @@ publishing {
                 }
             }
         }
+    }
+}
+
+signing {
+    val key = System.getenv("GPG_PRIVATE_KEY")
+    val password = System.getenv("GPG_PRIVATE_KEY_PASSWORD")
+
+    if (!key.isNullOrBlank() && !password.isNullOrBlank()) {
+        useInMemoryPgpKeys(key, password)
+        sign(publishing.publications)
     }
 }
