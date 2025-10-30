@@ -29,15 +29,6 @@ jobs:
           java-version: 21
           cache: gradle
 
-      - name: Install LibSodium
-        run: sudo apt-get update && sudo apt-get install -y libsodium-dev
-
-      - name: Grant execute permission to initialization script
-        run: chmod +x initialize.sh
-
-      - name: Initialize submodules and build
-        run: ./initialize.sh
-
       - name: Publish to Maven Central (NMCP)
         run: ./gradlew --no-daemon clean publishAggregationToCentralPortal --stacktrace
         env:

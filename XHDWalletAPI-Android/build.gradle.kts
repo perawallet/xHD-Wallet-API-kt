@@ -2,8 +2,8 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
-    id("maven-publish")
-    id("signing")
+    `maven-publish`
+    signing
 }
 
 group = "app.perawallet.xhdwalletapi"
@@ -20,21 +20,23 @@ android {
 
     defaultConfig {
         minSdk = 26
-        targetSdk = 36
-        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        ndk { abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64") }
+    }
 
-        ndk {
-            abiFilters += listOf("armeabi-v7a", "x86", "x86_64", "arm64-v8a")
+    buildFeatures { viewBinding = true }
+
+    lint { baseline = file("lint-baseline.xml") }
+
+    buildTypes {
+        release { isMinifyEnabled = false }
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
         }
-    }
-
-    buildFeatures {
-        viewBinding = true
-    }
-
-    lint {
-        baseline = file("lint-baseline.xml")
     }
 
     compileOptions {
@@ -65,24 +67,14 @@ tasks.named("build") {
     finalizedBy("copyAarToRoot")
 }
 
-val androidSourcesJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("sources")
-    from(android.sourceSets["main"].java.srcDirs)
-    from(android.sourceSets["main"].res.srcDirs)
-}
-
 publishing {
     publications {
-        create<MavenPublication>("mavenAndroid") {
+        create<MavenPublication>("release") {
+            afterEvaluate { from(components["release"]) }
+
             groupId = project.group.toString()
             artifactId = "xhdwalletapi-android"
             version = project.version.toString()
-
-            afterEvaluate {
-                from(components["release"])
-            }
-
-            artifact(androidSourcesJar.get())
 
             pom {
                 name.set("XHDWalletAPI-Android")
@@ -113,14 +105,12 @@ publishing {
     }
 }
 
-tasks.matching { it.name == "generateMetadataFileForMavenAndroidPublication" }
-    .configureEach { dependsOn(androidSourcesJar) }
-
 signing {
-    val signingKey = System.getenv("GPG_PRIVATE_KEY")
-    val signingPassword = System.getenv("GPG_PRIVATE_KEY_PASSWORD")
-    if (!signingKey.isNullOrBlank() && !signingPassword.isNullOrBlank()) {
-        useInMemoryPgpKeys(signingKey, signingPassword)
-        sign(publishing.publications["mavenAndroid"])
+    if (System.getenv("GPG_PRIVATE_KEY") != null) {
+        useInMemoryPgpKeys(
+            System.getenv("GPG_PRIVATE_KEY"),
+            System.getenv("GPG_PRIVATE_KEY_PASSWORD")
+        )
+        sign(publishing.publications)
     }
 }

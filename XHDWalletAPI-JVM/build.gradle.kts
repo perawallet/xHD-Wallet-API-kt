@@ -5,8 +5,8 @@ plugins {
     kotlin("plugin.serialization") version "2.2.21"
     kotlin("jvm")
     `java-library`
-    id("maven-publish")
-    id("signing")
+    `maven-publish`
+    signing
 }
 
 java {
@@ -75,6 +75,7 @@ tasks.register<Copy>("copyJarToRoot") {
 }
 
 tasks.named("build") {
+    if (!System.getenv("CI").isNullOrEmpty()) return@named
     finalizedBy("copyJarToRoot")
 }
 
@@ -85,9 +86,7 @@ publishing {
             artifactId = "xhdwalletapi"
             version = project.version.toString()
 
-            artifact(tasks["fatJar"]) {
-                classifier = null
-            }
+            from(components["java"])
             artifact(tasks["javadocJar"])
             artifact(tasks["sourcesJar"])
 
@@ -116,10 +115,12 @@ publishing {
         }
     }
 }
-
 signing {
-    val signingKey = System.getenv("GPG_PRIVATE_KEY")
-    val signingPassword = System.getenv("GPG_PRIVATE_KEY_PASSWORD")
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign(publishing.publications["mavenJava"])
+    if (System.getenv("GPG_PRIVATE_KEY") != null) {
+        useInMemoryPgpKeys(
+            System.getenv("GPG_PRIVATE_KEY"),
+            System.getenv("GPG_PRIVATE_KEY_PASSWORD")
+        )
+        sign(publishing.publications)
+    }
 }
