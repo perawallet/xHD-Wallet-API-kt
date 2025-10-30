@@ -6,6 +6,7 @@ plugins {
     signing
 }
 
+
 base {
     archivesName.set("xhdwalletapi-android")
 }
@@ -79,7 +80,7 @@ publishing {
 
             groupId = "app.perawallet.xhdwalletapi"
             artifactId = "xhdwalletapi-android"
-            version = "1.2.0"
+            version = "1.2.2"
 
             pom {
                 name.set("XHDWalletAPI-Android")

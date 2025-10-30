@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "app.perawallet"
-version = "5.1.5"
+version = "5.1.6"
 description = "Lazysodium (Java) makes it effortless for Java developers to get started with Libsodium's cryptography."
 
 java {
@@ -23,7 +23,7 @@ tasks.processResources {
 
 dependencies {
     api("com.goterl:resource-loader:2.1.0")
-    api("net.java.dev.jna:jna:5.18.1")
+    implementation("net.java.dev.jna:jna:5.18.1")
     implementation("org.slf4j:slf4j-api:2.0.17")
 }
 
