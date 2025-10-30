@@ -11,4 +11,6 @@ nmcpAggregation {
         password = System.getenv("CENTRAL_PORTAL_PASSWORD")
         publishingType = "AUTOMATIC"
     }
+
+    publishAllProjectsProbablyBreakingProjectIsolation()
 }

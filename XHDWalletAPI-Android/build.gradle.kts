@@ -1,11 +1,12 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("com.gradleup.nmcp")
     `maven-publish`
     signing
 }
 
+group = "app.perawallet"
+version = "1.2.1"
 
 base {
     archivesName.set("xhdwalletapi-android")
@@ -78,9 +79,8 @@ publishing {
         create<MavenPublication>("release") {
             afterEvaluate { from(components["release"]) }
 
-            groupId = "app.perawallet.xhdwalletapi"
+            groupId = group.toString()
             artifactId = "xhdwalletapi-android"
-            version = "1.2.2"
 
             pom {
                 name.set("XHDWalletAPI-Android")
