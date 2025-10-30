@@ -12,6 +12,7 @@ group = "app.perawallet.xhdwalletapi"
 version = project.property("version") as String
 
 dependencies {
+    api(project(":lazysodium-java"))
     api(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(kotlin("stdlib"))
     api("commons-codec:commons-codec:1.19.0")
