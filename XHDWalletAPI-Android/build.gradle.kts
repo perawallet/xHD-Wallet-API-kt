@@ -60,8 +60,8 @@ kotlin {
 }
 
 dependencies {
+    api("net.java.dev.jna:jna:5.18.1@aar")
     implementation(libs.resource.loader)
-    implementation(libs.jna)
     implementation(libs.slf4j.api)
     implementation(libs.commons.codec)
     implementation(libs.bip39)

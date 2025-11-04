@@ -2,13 +2,12 @@
 android-compileSdk = "36"
 android-minSdk = "26"
 android-ndk = "29.0.14206865"
-library-version = "1.2.2"
+library-version = "1.2.3"
 agp = "8.13.0"
 kotlin = "2.2.21"
 
 # --- Libraries ---
 resource-loader = "2.1.0"
-jna = "5.18.1"
 slf4j = "2.0.17"
 commons-codec = "1.19.0"
 bip39 = "1.0.9"
@@ -29,7 +28,6 @@ signing = { id = "signing" }
 [libraries]
 # Core
 resource-loader = { module = "com.goterl:resource-loader", version.ref = "resource-loader" }
-jna = { module = "net.java.dev.jna:jna", version.ref = "jna" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 commons-codec = { module = "commons-codec:commons-codec", version.ref = "commons-codec" }
 
